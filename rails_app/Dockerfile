@@ -1,31 +1,28 @@
-ARG RUBY_VERSION
-FROM ruby:$RUBY_VERSION
-LABEL MAINTAINER=dave@k-innovations.net
+FROM ruby:2.7.1-alpine3.11
 
-ARG NODE_MAJOR
-ARG PG_MAJOR
-ARG BUNDLE_VERSION
-RUN apt-get update
-RUN apt-get install -y build-essential
+RUN apk update && apk add build-base git nodejs python2 postgresql-dev postgresql-client graphicsmagick yarn tzdata --no-cache
 
-# Add PostgreSQL to sources list
-RUN curl -sSL https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -   && echo 'deb http://apt.postgresql.org/pub/repos/apt/ buster-pgdg main' $PG_MAJOR > /etc/apt/sources.list.d/pgdg.list
+# Make busybox and pry work nicely for large output
+ENV PAGER='more'
 
-RUN curl -sL https://deb.nodesource.com/setup_$NODE_MAJOR.x | bash -
-
-RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
-RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
-
-RUN apt-get -y update
-RUN apt-get -y install nodejs
-RUN apt-get -y install yarn
-RUN yarn config set "strict-ssl" false
-
-RUN bundle config --global frozen 1
+RUN mkdir /app
+WORKDIR /app
 
 COPY Gemfile Gemfile.lock ./
-RUN gem install bundler -v $BUNDLE_VERSION
-RUN bundle install -j $(nproc)
+RUN bundle install
 
-RUN mkdir -p /app
-WORKDIR /app
+COPY package.json yarn.lock ./
+RUN set -ex; \
+  yarn install --frozen-lockfile --production; \
+  yarn cache clean;
+
+COPY . .
+
+# Build production assets into image
+# Need keys to be set to start server but they don't need to be valid
+ENV SECRET_KEY_BASE bunchofgarbage
+ENV DATABASE_URL postgresql://just@start:5432/theserver
+ENV REDIS_BASE_URL redis://please:6379/0
+RUN RAILS_ENV=production bin/bundle exec rails webpacker:compile
+
+CMD ["rails", "server", "-b", "0.0.0.0"]

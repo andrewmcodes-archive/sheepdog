@@ -16,7 +16,6 @@
   "ruby.useBundler": true,
   "ruby.lint": {
     "standard": true,
-    "rubocop": false
   },
   "ruby.format": "standard",
   "[scss]": {

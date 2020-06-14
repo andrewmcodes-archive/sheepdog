@@ -3,7 +3,7 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby "2.6.6"
+ruby "2.7.1"
 
 gem "activeresource", "~> 5.1"
 gem "bootsnap", "~> 1.4"
@@ -27,7 +27,7 @@ gem "skylight", "~> 4.3"
 gem "stimulus_reflex", "~> 3.2"
 gem "turbolinks", "~> 5.2"
 gem "view_component", "~> 2.7"
-gem "webpacker", "~> 4.0"
+gem "webpacker", "~> 5.1.1"
 gem "yabeda-rails"
 gem "yabeda-sidekiq", "~> 0.1.1"
 gem "yabeda-prometheus"
@@ -63,8 +63,8 @@ group :development do
   gem "tty-box"
 end
 
-gem "tzinfo-data", platforms: [:mingw, :mswin, :x64_mingw, :jruby]
-
 group :development do
   gem "annotate"
 end
+
+gem "tzinfo-data", platforms: [:mingw, :mswin, :x64_mingw, :jruby]

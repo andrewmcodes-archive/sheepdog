@@ -5,7 +5,7 @@
 defaults = {
   url: ENV["REDIS_URL"],
   db: ENV["REDIS_DB"],
-  namespace: ENV["SIDEKIQ_NAMESPACE"]
+  namespace: ENV["ACTIVE_JOB_QUEUE_PREFIX"]
 }
 
 Sidekiq.configure_server do |config|

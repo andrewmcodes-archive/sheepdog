@@ -16,7 +16,7 @@ Please take note that we are using `trunk` as the base branch.
 
 ### System dependencies
 
-- Ruby version: 2.6.6
+- Ruby version: 2.7.1
 - Rails version: 6.0.3.1
 - Database: PostgreSQL
 - Redis installed

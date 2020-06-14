@@ -1,21 +1,31 @@
-default: &default
-  adapter: postgresql
-  encoding: unicode
-  pool: <%= ENV['DB_POOL'] %>
-  username: <%= ENV['DB_USERNAME'] %>
-  password: <%= ENV['DB_PASSWORD'] %>
-  host: <%= ENV['DB_HOST'] %>
-  port: <%= ENV['DB_PORT'] %>
-  database: <%= "sheepdog_#{ENV['RAILS_ENV']}" %>
+# default: &default
+#   adapter: postgresql
+#   database: <%= "sheepdog_#{ENV['RAILS_ENV']}" %>
+#   encoding: unicode
+#   host: <%= ENV['DATABASE_HOST'] %>
+#   password: <%= ENV['DATABASE_PASSWORD'] %>
+#   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+#   port: <%= ENV['DATABASE_PORT'] || '5432' %>
+#   timeout: 5000
+#   username: <%= ENV['DATABASE_USER'] %>
+
+# development:
+#   <<: *default
+#   # database: sheepdog_development
+
+# test:
+#   <<: *default
+#   # database: sheepdog_test
+
+# production:
+#   <<: *default
+#   # database: sheepdog_production
 
 development:
-  <<: *default
-  # database: sheepdog_development
+  url: <%= ENV['DATABASE_URL'].gsub('?', '_development?') %>
 
 test:
-  <<: *default
-  # database: sheepdog_test
+  url: <%= ENV['DATABASE_URL'].gsub('?', '_test?') %>
 
 production:
-  <<: *default
-  # database: sheepdog_production
+  url: <%= ENV['DATABASE_URL'].gsub('?', '_production') %>
