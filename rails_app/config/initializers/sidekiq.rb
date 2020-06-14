@@ -10,6 +10,7 @@ defaults = {
 
 Sidekiq.configure_server do |config|
   config.redis = defaults.merge(size: 50)
+   Yabeda::Prometheus::Exporter.start_metrics_server!
 end
 
 Sidekiq.configure_client do |config|

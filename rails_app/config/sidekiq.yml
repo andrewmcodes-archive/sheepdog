@@ -1,11 +1,16 @@
-development: &default
+default: &default
   :namespace: <%= ENV['SIDEKIQ_NAMESPACE'] %>
   :pidfile: tmp/pids/sidekiq.pid
   :expires: 120
-  :concurrency: 25
+  :concurrency: 5
   :queues:
-    - default
-    - [sentry, 1]
+    - [urgent,  20]
+    - [mailers, 10]
+    - [default, 10]
+    - [utils,    1] # Like sentry
+
+development:
+  <<: *default
 
 production:
   <<: *default

@@ -3,7 +3,7 @@
 class SentryWorker
   include Sidekiq::Worker
 
-  sidekiq_options(queue: :sentry)
+  sidekiq_options(queue: :utils)
 
   def perform(event)
     Raven.send_event(event)

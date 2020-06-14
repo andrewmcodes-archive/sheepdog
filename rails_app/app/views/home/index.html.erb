@@ -1,1 +1,5 @@
 <h1>Home#index</h1>
+
+<%= form_tag("/", method: "post") do %>
+  <%= submit_tag("Let the jobs flow through Sidekiq queues!", disable_with: "Please stand by…", class: 'e-form__button') %>
+<% end %>
