@@ -1,0 +1,21 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV['DB_POOL'] %>
+  username: <%= ENV['DB_USERNAME'] %>
+  password: <%= ENV['DB_PASSWORD'] %>
+  host: <%= ENV['DB_HOST'] %>
+  port: <%= ENV['DB_PORT'] %>
+  database: <%= "sheepdog_#{ENV['RAILS_ENV']}" %>
+
+development:
+  <<: *default
+  # database: sheepdog_development
+
+test:
+  <<: *default
+  # database: sheepdog_test
+
+production:
+  <<: *default
+  # database: sheepdog_production
